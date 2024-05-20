@@ -14,17 +14,19 @@ def main():
         if os.path.exists(path):
             rmtree(path)
         os.makedirs(path)
-    
+
     split_rate = 0.2
-    init_dataset = ''
-    new_dataset = 'datasets'
+    #TODO 换路径
+    init_dataset = '../../ResNet_Train/twoDataAsset/TrainDataTest'
+    new_dataset = '../datasets/'
     random.seed(0)
+
 
     classes_name = [name for name in os.listdir(init_dataset)]
 
     makedir(new_dataset)
-    training_set = os.path.join(new_dataset, "train")
-    test_set = os.path.join(new_dataset, "test")
+    training_set = os.path.join(new_dataset, "train/")
+    test_set = os.path.join(new_dataset, "test/")
     makedir(training_set)
     makedir(test_set)
     
@@ -36,6 +38,8 @@ def main():
     for cla in classes_name:
         class_path = os.path.join(init_dataset, cla)
         img_set = os.listdir(class_path)
+        if cla == 'normal':
+            img_set = random.sample(img_set, 4000)
         num = len(img_set)
         test_set_index = random.sample(img_set, k=int(num*split_rate))
         with tqdm(total=num,desc=f'Class : ' + cla, mininterval=0.3) as pbar:

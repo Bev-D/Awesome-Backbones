@@ -44,6 +44,8 @@ def main():
         img = image_maps[name]
         # get single test results
         result = inference_model(model, img, val_pipeline, classes_names,label_names)
+
+
         # put the results to img
         img_show = imshow_infos(img, result,show = False,out_file=out_path)
         

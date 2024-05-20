@@ -24,7 +24,7 @@ from models.build import BuildNet
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a model')
-    parser.add_argument('config', help='train config file path')
+    parser.add_argument('config', help='models/resnet/resnet152.py')
     parser.add_argument('--resume-from', help='the checkpoint file to resume from')
     parser.add_argument('--seed', type=int, default=None, help='random seed')
     parser.add_argument('--device', help='device used for training. (Deprecated)')
@@ -163,7 +163,7 @@ def main():
         lr_update_func.before_train_epoch(runner)
         train(model, runner, lr_update_func, device, epoch, data_cfg.get('train').get('epoches'), data_cfg.get('test'), meta)
         validation(model, runner, data_cfg.get('test'), device, epoch, data_cfg.get('train').get('epoches'), meta)
-        
+
         train_history.after_epoch(meta)
 
 if __name__ == "__main__":
