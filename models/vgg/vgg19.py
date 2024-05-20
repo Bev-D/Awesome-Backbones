@@ -1,12 +1,12 @@
 # model settings
 
 model_cfg = dict(
-    backbone=dict(type='VGG', depth=19, num_classes=1000),
+    backbone=dict(type='VGG', depth=19, num_classes=8),
     neck=None,
     head=dict(
         type='ClsHead',
         loss=dict(type='CrossEntropyLoss', loss_weight=1.0),
-        topk=(1, 5)))
+        topk=(1, 3)))
 
 # dataloader pipeline
 img_norm_cfg = dict(
@@ -22,7 +22,7 @@ train_pipeline = [
 ]
 val_pipeline = [
     dict(type='LoadImageFromFile'),
-    dict(type='Resize', size=(256, -1), backend='pillow'),
+    dict(type='Resize', size=(224, -1), backend='pillow'),
     dict(type='CenterCrop', crop_size=224),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='ImageToTensor', keys=['img']),
@@ -32,13 +32,13 @@ val_pipeline = [
 # train
 data_cfg = dict(
     batch_size = 32,
-    num_workers = 4,
+    num_workers = 1,
     train = dict(
         pretrained_flag = False,
         pretrained_weights = '',
         freeze_flag = False,
         freeze_layers = ('backbone',),
-        epoches = 100,
+        epoches = 1000,
     ),
     test=dict(
         ckpt = '',

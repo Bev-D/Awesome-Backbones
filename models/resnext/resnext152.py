@@ -12,7 +12,7 @@ model_cfg = dict(
     neck=dict(type='GlobalAveragePooling'),
     head=dict(
         type='LinearClsHead',
-        num_classes=1000,
+        num_classes=8,
         in_channels=2048,
         loss=dict(type='CrossEntropyLoss', loss_weight=1.0),
         topk=(1, 5),
@@ -23,7 +23,7 @@ img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 train_pipeline = [
     dict(type='LoadImageFromFile'),
-    dict(type='RandomResizedCrop', size=224, backend='pillow'),
+    dict(type='RandomResizedCrop', size=112, backend='pillow'),
     dict(type='RandomFlip', flip_prob=0.5, direction='horizontal'),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='ImageToTensor', keys=['img']),
@@ -33,7 +33,7 @@ train_pipeline = [
 val_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='Resize', size=(256, -1), backend='pillow'),
-    dict(type='CenterCrop', crop_size=224),
+    dict(type='CenterCrop', crop_size=112),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='ImageToTensor', keys=['img']),
     dict(type='Collect', keys=['img'])
@@ -42,7 +42,7 @@ val_pipeline = [
 # train
 data_cfg = dict(
     batch_size = 32,
-    num_workers = 4,
+    num_workers = 1,
     train = dict(
         pretrained_flag = False,
         pretrained_weights = '',

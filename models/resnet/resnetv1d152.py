@@ -10,7 +10,7 @@ model_cfg = dict(
     neck=dict(type='GlobalAveragePooling'),
     head=dict(
         type='LinearClsHead',
-        num_classes=1000,
+        num_classes=8,
         in_channels=2048,
         loss=dict(type='CrossEntropyLoss', loss_weight=1.0),
         topk=(1, 5),))
@@ -123,7 +123,7 @@ train_pipeline = [
         magnitude_level=12),
     dict(
         type='RandomResizedCrop',
-        size=224,
+        size=112,
         efficientnet_style=True,
         interpolation='bicubic',
         backend='pillow'),
@@ -143,7 +143,7 @@ val_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(
         type='CenterCrop',
-        crop_size=224,
+        crop_size=112,
         efficientnet_style=True,
         interpolation='bicubic',
         backend='pillow'),
@@ -159,13 +159,13 @@ val_pipeline = [
 # train
 data_cfg = dict(
     batch_size = 32,
-    num_workers = 4,
+    num_workers = 1,
     train = dict(
         pretrained_flag = False,
         pretrained_weights = '',
         freeze_flag = False,
         freeze_layers = ('backbone',),
-        epoches = 100,
+        epoches = 500,
     ),
     test=dict(
         ckpt = '',
