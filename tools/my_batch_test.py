@@ -1,3 +1,4 @@
+import re
 from argparse import ArgumentParser
 import os
 import sys
@@ -47,18 +48,34 @@ def main(path,config,classes_map):
         # get single test results
         result = inference_model(model, img, val_pipeline, classes_names,label_names)
         results.append((name, result))  # 将 name 和 result 作为一个元组添加到列表中
+        # if  "crop" in path:
+        #     name = result[0]  # 假设 name 是 result 的第一个元素
+        #     pred_class = result[1]['pred_class']  #
+        #     pred_score = result[1]['pred_score']
+        #     pred_index = result[1]['pred_label']
+        #
+        #     filename, ext = os.path.splitext(name)
+        #     match = re.search('_(?=[^_]*$)', name)  # 使用正则表达式查找最后一个下划线
+        #     if match:
+        #         nameindex = match.start()
+        #         parentfilename = filename[:nameindex]
+        #         index = filename[nameindex + 1:]
+        #
+        #     # 将处理后的文件名和后缀重新组合
+        #     parentfile = parentfilename + ext
+
         num+=1
         print (f"当前{path}进度：{num}/{len(image_maps)}")
         # put the results to img
-        img_show = imshow_infos(img, result,show = False,out_file=out_path)
-        
-        if args.show:
-            cv2.namedWindow('video', 0)
-            cv2.imshow('video',img_show)
-        
-        # q to quit
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        # img_show = imshow_infos(img, result,show = False,out_file=out_path)
+        #
+        # if args.show:
+        #     cv2.namedWindow('video', 0)
+        #     cv2.imshow('video',img_show)
+        #
+        # # q to quit
+        # if cv2.waitKey(1) & 0xFF == ord('q'):
+        #     break
     
     cv2.destroyAllWindows()
     return results
